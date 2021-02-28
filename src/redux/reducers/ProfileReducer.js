@@ -1,15 +1,16 @@
-import {ADD_NEW_POST, FETCHING_USERS_AVATARKA, FETCHING_USERS_PROFILE} from "../actions/ActionTypes";
+import {ADD_NEW_POST, FETCHING_STATUS, FETCHING_USERS_AVATARKA, FETCHING_USERS_PROFILE} from "../actions/ActionTypes";
+import {profileAPI, usersAPI} from "../../components/API";
 
 const initialState = {
     post:[],
     currentUsersProfile: null,
-    usersProfileAva: null
+    usersProfileAva: null,
+    status:'',
 }
 
 const profileReducer = (state = initialState, action)=>{
     switch (action.type) {
         case ADD_NEW_POST:
-            debugger;
             return{
                 ...state,
                 post: [...state.post, action.payload]
@@ -24,6 +25,11 @@ const profileReducer = (state = initialState, action)=>{
                 ...state,
                 usersProfileAva: action.payload
             }
+        case FETCHING_STATUS:
+            return {
+                ...state,
+                status: action.payload
+            }
 
         default:
             return {
@@ -35,5 +41,34 @@ const profileReducer = (state = initialState, action)=>{
 
 export const fetchCurrentUsersProfile = (id)=>({type: FETCHING_USERS_PROFILE, payload:id})
 export const fetchUsersProfileAva = (img) =>({type: FETCHING_USERS_AVATARKA, payload:img})
+export const fetchUserStatus = (status) =>({type: FETCHING_STATUS, payload:status})
+
+
+export const getUserProfile = (currentUsersProfile)=>{
+    return (dispatch)=>{
+        usersAPI.getUserProfile(currentUsersProfile).then(data =>{
+            dispatch(fetchUsersProfileAva(data.photos.small))
+        })
+    }
+}
+export const getUserStatus = (userId)=>{
+    return (dispatch)=>{
+        profileAPI.getStatus(userId).then(response =>{
+            debugger;
+                dispatch(fetchUserStatus(response.data))
+
+        })
+    }
+}
+
+export const updateStatus = (userStatus)=>{
+    return (dispatch)=>{
+        profileAPI.updateStatus(userStatus).then(response =>{
+            if(response.resultCode === 0){
+                dispatch(fetchUserStatus(userStatus))
+            }
+        })
+    }
+}
 
 export default profileReducer;

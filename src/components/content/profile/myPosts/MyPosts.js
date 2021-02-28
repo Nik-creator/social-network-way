@@ -3,11 +3,11 @@ import InputPost from "../inputPost/InputPost";
 import {connect} from "react-redux";
 import OutputPost from "./outputPost";
 
-const MyPosts = ({post})=>{
+const MyPosts = (props)=>{
     return(
         <div className={c.wrapper}>
             <InputPost />
-            <OutputPost post={post}/>
+            <OutputPost post={props.post}/>
         </div>
     )
 }

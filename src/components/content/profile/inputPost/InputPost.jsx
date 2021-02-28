@@ -2,6 +2,7 @@ import c from "./InputPost.module.css";
 import React from "react";
 import {connect} from "react-redux"
 import {addPost} from "../../../../redux/actions/addBooks";
+
 const InputPost = (props)=>{
     const {addNewPost} = props;
     let newPostElement = React.createRef()
@@ -14,6 +15,7 @@ const InputPost = (props)=>{
     const style={
         marginBottom:"50px"
     }
+
     return (
         <>
             <form style={style}>

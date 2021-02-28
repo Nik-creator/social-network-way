@@ -3,15 +3,14 @@ import ava from "../../../../assets/img/ava.png"
 import c from "./Users.module.css";
 import {NavLink} from "react-router-dom";
 
+
+
 const Users = (props)=>{
-
     let count =  Math.ceil(props.totalCount / props.pageSize);
-
     let pages = [];
     for(let i = 1; i <= count; i++) {
         pages.push(i);
     }
-
 
     return(
         <>
@@ -29,15 +28,18 @@ const Users = (props)=>{
                                     <img src={u.photos.small != null ? u.photos.small : ava} className={c.img} alt='ava'/>
                                 </NavLink>
                                 {u.followed ?
-                                    <button onClick={() => {props.unfollow(u.id)
+                                    <button disabled={props.isFollowing.some(id=> id === u.id)} onClick={() => {
+                                        props.getUnfollow(u.id)
                                     }}>Unfollow</button>
-                                    : <button onClick={()=>{props.follow(u.id)}}>follow</button>
+                                    : <button disabled={props.isFollowing.some(id => id === u.id)} onClick={()=>{
+                                        props.getFollow(u.id)
+                                    }}>follow</button>
                                 }
                             </div>
 
                             <div>
                                 <div>{u.name}</div>
-                                <div>{u.status}</div>
+                                <div>Status:{u.status}</div>
                             </div>
                             <div>
                                 {/*<div>{u.location.country}</div>*/}

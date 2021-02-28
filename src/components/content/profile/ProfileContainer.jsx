@@ -1,10 +1,13 @@
 import React from "react";
-import ProfileImg from "./profileImg/ProfileImg";
 import MyPosts from "./myPosts/MyPosts";
 import {connect} from "react-redux";
-import * as axios from "axios";
-import {fetchUsersProfileAva} from "../../../redux/reducers/ProfileReducer";
+import {getUserProfile, getUserStatus, updateStatus} from "../../../redux/reducers/ProfileReducer";
 import {withRouter} from "react-router-dom";
+import {withRedirect} from "../../../HOC/withRedirect";
+import {compose} from "redux";
+import MyProfile from "./myProfile/MyProfile";
+
+
 
 
 
@@ -13,10 +16,8 @@ import {withRouter} from "react-router-dom";
 class ProfileContainer extends React.Component {
 
    componentDidMount() {
-       debugger;
-       axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.currentUsersProfile}`).then(response=>{
-        this.props.fetchAva(response.data.photos.small)
-       });
+       this.props.getUserProfile(this.props.currentUsersProfile)
+       this.props.getUserStatus(this.props.currentUsersProfile);
    }
 
 
@@ -27,8 +28,9 @@ class ProfileContainer extends React.Component {
         return(
             <>
                 <div>
-                    <ProfileImg img={this.props.usersProfileAva}/>
-                    <MyPosts/>
+                    <MyProfile img={this.props.usersProfileAva} updateStatus={this.props.updateStatus} status={this.props.status}/>
+                    <MyPosts />
+
                 </div>
             </>
         )
@@ -39,18 +41,15 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state)=>{
     return {
         currentUsersProfile: state.profile.currentUsersProfile,
-        usersProfileAva: state.profile.usersProfileAva
+        usersProfileAva: state.profile.usersProfileAva,
+        isAuth: state.auth.isAuth,
+        status: state.profile.status
     }
 }
 
-let mapDispatchToProps = (dispatch)=>{
-    return {
-        fetchAva: (img) => {
-            dispatch(fetchUsersProfileAva(img))
-        }
-    }
-}
+export default compose(
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateStatus}),
+    withRouter,
+    withRedirect
+)(ProfileContainer)
 
-let UrlProfileComponent = withRouter(ProfileContainer)
-
-export default connect(mapStateToProps, mapDispatchToProps)(UrlProfileComponent);
