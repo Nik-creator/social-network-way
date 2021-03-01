@@ -1,35 +1,39 @@
 import c from "./InputPost.module.css";
 import React from "react";
-import {connect} from "react-redux"
-import {addPost} from "../../../../redux/actions/addBooks";
+import {Field, reduxForm} from "redux-form";
+
+
+
+
+
+const AddPostForm = (props)=>{
+    return(
+        <form onSubmit={props.handleSubmit}>
+            <div>My post</div>
+            <div>
+                <Field component='input' placeholder='your post' name='profilePost'/>
+            </div>
+            <button>Add Post</button>
+        </form>
+    )
+}
+
+
+const AddPostReduxForm = reduxForm({
+    form: 'addProfilePosts'
+})(AddPostForm)
+
 
 const InputPost = (props)=>{
-    const {addNewPost} = props;
-    let newPostElement = React.createRef()
-    function HeaderClick(){
-        let postText = newPostElement.current.value;
-        addNewPost(postText)
-        newPostElement.current.value = "";
 
+    const onSubmit = (formData)=> {
+        props.addPost(formData.profilePost)
     }
-    const style={
-        marginBottom:"50px"
-    }
-
-    return (
+    return(
         <>
-            <form style={style}>
-                <label className={c.lable}>My posts</label>
-                <input className={c.input} ref={newPostElement}/>
-                <button type='button' className={c.button} onClick={()=>HeaderClick()}>Add post</button>
-            </form>
+            <AddPostReduxForm onSubmit={onSubmit}/>
         </>
     )
 }
-export default connect(null,
-    dispatch =>({
-        addNewPost: (post) => {
-            dispatch(addPost(post))
-        }
-    })
-    )(InputPost);
+
+export default InputPost;

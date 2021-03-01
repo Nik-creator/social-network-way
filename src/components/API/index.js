@@ -34,7 +34,7 @@ export const profileAPI ={
         return axiosInstance.get(`profile/status/${userId}`)
     },
     updateStatus(userStatus){
-        return axiosInstance.put(`profile/status`, {
+        return axiosInstance.put('profile/status', {
             status: userStatus
         })
     }
@@ -42,8 +42,10 @@ export const profileAPI ={
 
 export const authAPI = {
     Me(){
-
         return axiosInstance.get(`auth/me`).then(response => response.data)
+    },
+    login(){
+        return axiosInstance.post(`auth/login`)
     }
 }
 

@@ -11,6 +11,7 @@ const initialState = {
 const profileReducer = (state = initialState, action)=>{
     switch (action.type) {
         case ADD_NEW_POST:
+            debugger;
             return{
                 ...state,
                 post: [...state.post, action.payload]
@@ -42,6 +43,13 @@ const profileReducer = (state = initialState, action)=>{
 export const fetchCurrentUsersProfile = (id)=>({type: FETCHING_USERS_PROFILE, payload:id})
 export const fetchUsersProfileAva = (img) =>({type: FETCHING_USERS_AVATARKA, payload:img})
 export const fetchUserStatus = (status) =>({type: FETCHING_STATUS, payload:status})
+export const addPost = (formData)=> ({type: ADD_NEW_POST, payload:formData})
+
+export const getLogin = ()=>{
+    return (dispatch)=>{
+
+    }
+}
 
 
 export const getUserProfile = (currentUsersProfile)=>{
@@ -54,7 +62,6 @@ export const getUserProfile = (currentUsersProfile)=>{
 export const getUserStatus = (userId)=>{
     return (dispatch)=>{
         profileAPI.getStatus(userId).then(response =>{
-            debugger;
                 dispatch(fetchUserStatus(response.data))
 
         })

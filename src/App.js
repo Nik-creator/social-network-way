@@ -6,7 +6,7 @@ import UsersContainer from "./components/content/usersContainer/UsersContainer";
 import {Route } from 'react-router-dom';
 import HeaderContainer from "./components/header/HeaderContainer";
 import Login from "./components/login/Login";
-import Dialogs from "./components/content/dialogs/Dialogs";
+import DialogsContainer from "./components/content/dialogsContainer/DialogsContainer";
 
 
 
@@ -18,7 +18,7 @@ function App() {
           <div className={c.content}>
               {/*<Route exact path='/' component={ProfileContainer}></Route>*/}
               <Route path='/Profile/:usersId?' component={Profile}></Route>
-              <Route path='/Dialogs' component={Dialogs}></Route>
+              <Route path='/Dialogs' component={DialogsContainer}></Route>
               <Route path='/Users' render={() => <UsersContainer/>}></Route>
               <Route path='/login' render={()=><Login />}></Route>
           </div>
