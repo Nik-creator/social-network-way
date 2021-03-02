@@ -11,7 +11,6 @@ const initialState = {
 const profileReducer = (state = initialState, action)=>{
     switch (action.type) {
         case ADD_NEW_POST:
-            debugger;
             return{
                 ...state,
                 post: [...state.post, action.payload]
@@ -45,11 +44,6 @@ export const fetchUsersProfileAva = (img) =>({type: FETCHING_USERS_AVATARKA, pay
 export const fetchUserStatus = (status) =>({type: FETCHING_STATUS, payload:status})
 export const addPost = (formData)=> ({type: ADD_NEW_POST, payload:formData})
 
-export const getLogin = ()=>{
-    return (dispatch)=>{
-
-    }
-}
 
 
 export const getUserProfile = (currentUsersProfile)=>{
@@ -71,7 +65,7 @@ export const getUserStatus = (userId)=>{
 export const updateStatus = (userStatus)=>{
     return (dispatch)=>{
         profileAPI.updateStatus(userStatus).then(response =>{
-            if(response.resultCode === 0){
+            if(response.data.resultCode === 0){
                 dispatch(fetchUserStatus(userStatus))
             }
         })
